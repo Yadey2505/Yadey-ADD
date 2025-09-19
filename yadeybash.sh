@@ -52,7 +52,7 @@ menu(){
          echo "    nameservers:" >> /etc/netplan/01-network-manager-all.yaml
          echo "      addresses: [$dns]" >> /etc/netplan/01-network-manager-all.yaml
 	 netplan apply > /dev/null
-	 sleep 5
+	 sleep 8
 	 ip a
 
        ;;
@@ -94,8 +94,8 @@ menu(){
 
     4)
 	read -p "Introduce el nombre de un fichero: " fichero
-	ruta=$(find / -type f -name "$fichero")
-	if [ -e $ruta ]; then
+	ruta=$(find / -type f -name "$fichero" 2>/dev/null)
+	if [ -e "$ruta" ]; then
             echo "$fichero existe en $ruta"
 	else
 	    echo "Error el fichero no existe"
