@@ -69,14 +69,14 @@ menu(){
 	echo "Tienes $max_inte intentos para adivinarlo"
 
 	#Bucle para los intentos
-	while [ $intentos -lt $max_inte ]
+	while [ $intentos -lt $max_inte ];
 	do
 
 	#Contar los intentos
 		let intentos=intentos+1
 		read -p "Intento $intentos: Escribe tu numero: " user
 
-		if [ "$user" -lt "$nume" ]; then
+		if [ "$user" -eq "$nume" ]; then
 	    	  echo "Has adivinado el numero en $intentos intentos"
 	    	exit 0
 		elif [ "$user" -lt "$nume" ]; then
@@ -90,14 +90,21 @@ menu(){
 	echo ""
 	echo "No tienes mas intentos"
 	echo "El numero era: $nume"
+    ;;
 
+    4)
+	read -p "Introduce el nombre de un fichero: " fichero
+	ruta=$(find / -type f -name "$fichero")
+	if [ -e $ruta ]; then
+            echo "$fichero existe en $ruta"
+	else
+	    echo "Error el fichero no existe"
 
-#    4)
-#	read -p "Introduce el nombre de un fichero: " fichero
-#	find $fichero
-#	if $
+	fi
+	vocales=$(tr -cd 'aeiouAEIOU' < "$ruta" | wc -c)
+		echo "Numero de vocales es = $vocales"
 
-
+    ;;
 
 
     esac
