@@ -9,11 +9,11 @@ menu(){
    echo "***********************"
    echo "1.Bisiesto"
    echo "2. Red"
-   echo "3."
-   echo "4."
-   echo "5."
-   echo "6."
-   echo "7."
+   echo "3. Adivina"
+   echo "4. Buscar"
+   echo "5. Contar"
+   echo "6. Permiso Octal"
+   echo "7. Romano"
    echo "8."
    echo "9."
    echo "10."
@@ -44,10 +44,11 @@ menu(){
 	 read -p "Introduce una puerta de enlace: " gateway
 	 read -p "Introduce un DNS: " dns
 
-         echo "      - $ip/$masca" >> /etc/netplan/01-network-manager-all.yaml
+	 cat plantillared > /etc/netplan/01-network-manager-all.yaml
+         echo "     - $ip/$masca" >> /etc/netplan/01-network-manager-all.yaml
          echo "    routes:" >> /etc/netplan/01-network-manager-all.yaml
-         echo "      - to: default" >> /etc/netplan/01-network-manager-all.yaml
-         echo "        via: $gateway" >> /etc/netplan/01-network-manager-all.yaml
+         echo "     - to: default" >> /etc/netplan/01-network-manager-all.yaml
+         echo "       via: $gateway" >> /etc/netplan/01-network-manager-all.yaml
          echo "    nameservers:" >> /etc/netplan/01-network-manager-all.yaml
          echo "      addresses: [$dns]" >> /etc/netplan/01-network-manager-all.yaml
 	 netplan apply > /dev/null
@@ -56,6 +57,39 @@ menu(){
 
        ;;
 
+
+     3)
+	#Generar numeor random
+        nume=$((RANDOM % 100 +1))
+
+	intentos=0
+	max_inte=5
+
+	echo "Intenta adivinar el numero que he pensado entre 1 y 100"
+	echo "Tienes $max_inte intentos para adivinarlo"
+
+	#Bucle para los intentos
+	while [ $intentos -lt $max_inte ]
+	do
+
+	#Contar los intentos
+		intentos=$((intentos +1))
+		read -p "Intento $intentos: Escribe tu numero: " user
+
+		if [ "$user" -lt "$nume" ]; then
+	    	  echo "Has adivinado el numero en $intentos intentos"
+	    	exit 0
+		elif [ "$user" -lt "$nume" ]; then
+	    	  echo "El numero es mayor que $user"
+		else
+	    	  echo "El numero es menor que $user"
+		fi
+	done
+
+	#Sin intentos
+	echo ""
+	echo "No tienes mas intentos"
+	echo "El numero era: $nume"
     esac
 }
 menu
