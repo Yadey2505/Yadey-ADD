@@ -32,28 +32,19 @@ archivo="/etc/netplan/01-network-manager-all.yaml"
 	read -p "Introduce una mascara (ej: 24 ): " masca
 	read -p "Introduce una puerta de enlace: " gateway
 	read -p "Introduce un DNS: " dns
-	{
-	    echo "network:"
-	    echo "  version: 2"
-	    echo "  renderer: NetworkManager"
-	    echo "  ethernets:"
-	    echo "    $interfaz:"
-	    echo "      addresses: [$ip/$masca]"
-	    echo "      gateway4: $gateway"
-	    echo "      nameservers:"
-	    echo "        addresses: [$dns]"
-	    echo "      routes:"
-            echo "        - to: default"
-            echo "          via: $gateway"
-        } | sudo tee $archivo > /dev/null
 
-          sudo chmod 600 $archivo
-	  sudo chown root:root $archivo
+	cat /etc/netplan/redconfig > /etc/netplan/01-network-manager-all.yaml
+	echo "     - $ip/masca " >> /etc/netplan/01-network-manager-all.yaml
+	echo "    routes:" >> /etc/netplan/01-network-manager-all.yaml
+	echo "     - to: default" >> /etc/netplan/01-network-manager-all.yaml
+	echo "       via: $gate" >> /etc/netplan/01-network-manager-all.yaml
+	echo "    nameservers:" >> /etc/netplan/01-network-manager-all.yaml
+	echo "      addresses: [$dns]" >> /etc/netplan/01-network-manager-all.yaml
+	netplan apply > /dev/null
+	sleep 5
+	ip a
 
-
-	  netplan apply
-	  sleep 5
-	  ip a
+      ;;
    esac
 }
 menu
