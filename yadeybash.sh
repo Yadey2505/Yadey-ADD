@@ -73,7 +73,7 @@ menu(){
 	do
 
 	#Contar los intentos
-		intentos=$((intentos +1))
+		let intentos=intentos+1
 		read -p "Intento $intentos: Escribe tu numero: " user
 
 		if [ "$user" -lt "$nume" ]; then
@@ -90,6 +90,16 @@ menu(){
 	echo ""
 	echo "No tienes mas intentos"
 	echo "El numero era: $nume"
+
+
+#    4)
+#	read -p "Introduce el nombre de un fichero: " fichero
+#	find $fichero
+#	if $
+
+
+
+
     esac
 }
 menu
