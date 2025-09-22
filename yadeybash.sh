@@ -6,8 +6,10 @@ echo "#########################################"
 echo ""
 #Opciones del menú
 menu(){
+   opcion=1
+   while [ $opcion -ne 0 ]; do
    echo "***********************"
-   echo "1.Bisiesto"
+   echo "1. Bisiesto"
    echo "2. Red"
    echo "3. Adivina"
    echo "4. Buscar"
@@ -22,6 +24,7 @@ menu(){
    echo "13."
    echo "14."
    echo "15."
+   echo "0. SALIR"
    echo "***********************"
 
 #Interaccion con el usuario
@@ -31,7 +34,7 @@ menu(){
       1)
          read -p "Introduce un año: " anio
          let anio--
-         if [ $((anio % 4)) -eq 0 ]; then
+         if (( ("$anio" % 400) == "0" )) || (( ("$anio" % 4 == "0") && ("$anio" % 100 !="0") )); then
 	    echo "$anio es un año bisiesto"
          else
 	    echo "$anio no es bisiesto"
@@ -101,12 +104,37 @@ menu(){
 	    echo "Error el fichero no existe"
 
 	fi
-	vocales=$(tr -cd 'aeiouAEIOU' < "$ruta" | wc -c)
+	vocales=$(grep -o -i  "[aeiouáéíóú]" "$ruta" | wc -l)
 		echo "Numero de vocales es = $vocales"
+    ;;
+
+
+    5)
+       read -p "Introduce el nombre de un directorio: " directorio
+       contar=$(find "$directorio" -type f| wc -l)
+	   echo ""
+           echo "El directorio $directorio contiene $contar archivos"
 
     ;;
 
 
+
+
+    6)
+    ;;
+
+    7)
+
+    ;;
+
+    8)
+
+    ;;
+    9)
+    ;;
+
     esac
+done
 }
+
 menu
